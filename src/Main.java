@@ -2,6 +2,9 @@ import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/*
+Лямбды есть в StringProcessor.java
+ */
 public class Main {
     public static void main(String[] args) {
         int resourcesAmount;

@@ -31,11 +31,15 @@ public class StringProcessor implements Runnable, Parser {
 
     boolean isCyrillic(char c) {
         if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
-            stopCondition.set(true);
+            synchronized (sharedHashMap) {
+                stopCondition.set(true);
+            }
         }
         return Character.UnicodeBlock.CYRILLIC.equals(Character.UnicodeBlock.of(c));
     }
-
+/*
+В этом методе используется лямбда
+ */
     @Override
     public void parse() {
         resource.replace("\n", "");
@@ -48,7 +52,7 @@ public class StringProcessor implements Runnable, Parser {
             }
             words[i] = words[i].replaceAll("\\p{Punct}+$", "");
             if (checkWord(words[i])) {
-                sharedHashMap.compute(words[i], (k, v) -> v == null ? 1 : v + 1);
+                sharedHashMap.compute(words[i], (k, v) -> v == null ? 1 : v + 1); // <--- Лямбда тут
                 System.out.println(words[i] + " " + sharedHashMap.get(words[i]));
             }
         }
